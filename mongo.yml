@@ -1,0 +1,20 @@
+---
+- name: installing standolone mondodb
+  hosts: 34.67.161.80 
+  become_method: sudo
+  tasks:
+  - name: update all packages
+    apt:
+     name: "*"
+     update_cache: yes
+     state: latest
+  - name: install mariaDB server
+    apt:
+     name: mariadb-server
+     state: latest
+     update_cache: yes
+  - name: start mariadb
+    service:
+      name: mariadb
+      state: started 
+

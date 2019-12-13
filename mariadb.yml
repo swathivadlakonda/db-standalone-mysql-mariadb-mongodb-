@@ -1,0 +1,36 @@
+---
+- name: installation of dbstandolone for meriadb
+  hosts: 34.69.197.194 
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: install mariadb repository
+    apt_repository:
+      repo: deb http://ftp.igh.cnrs.fr/pub/mariadb/repo/10.0/ubuntu trusty main
+      state: present
+  - name: add repository key to the system
+    apt_key:
+      keyserver: keyserver.ubuntu.com
+      id: 36A1D7869245C8950F966E92D8576A8BA88D21E9  
+  - name: installing mariadb server
+    apt: 
+     name: "{{items}}"
+     state: present
+    with_items:
+       - mariadb-client
+       - mariadb-common
+       - mariadb-server
+  - name: install python
+    apt:
+     name: python-mysqldb
+     state: installed
+  - name: start and enable service
+    service:
+      name: mysql
+      state: started
+      enabled: yes
+   
+
+
+ 
+ 

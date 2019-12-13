@@ -1,0 +1,48 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: install wget
+    yum:
+     name: wget
+     state: installed
+     update_cache: yes
+  - name: install python
+    yum:
+     name: MySQL-python
+     state: installed
+  - name: Download sources
+    get_url:
+      url: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+      dest: /usr/local
+  - name: install rpm
+    yum:
+     name: /usr/local/mysql-community-release-el7-5.noarch.rpm
+     state: present
+  - name: install mysql
+    yum:
+     name: mysql-server
+     state: installed
+  - name: start sql service
+    service: 
+     name: mysqld
+     state: restarted
+  - name: create database
+    mysql_db:
+      name: swathi
+      state: present
+  - name: create user
+    mysql_user:
+      name: gopi
+      password: root
+      priv: '*.*:ALL,GRANT'
+      state: present
+  - name: restart mysql
+    service:
+      name: mysql
+      state: restarted
+
+ 
+
+
+ 

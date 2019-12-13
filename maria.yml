@@ -1,0 +1,20 @@
+---
+- name: installing standolone mondodb
+  hosts: 35.225.116.137 
+  become_method: sudo
+  tasks:
+  - name: update all packages
+    apt:
+     name: "*"
+     update_cache: yes
+     state: latest
+  - name: install mondodb
+    apt:
+     name: mongodb
+     state: latest
+     update_cache: yes
+  - name: start mondodb
+    service:
+      name: mongodb
+      state: started  
+
